@@ -7,15 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B1FA329E13831EC58B6E623B /* Pods_SwiftApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DC814667127DF9562E84DAC /* Pods_SwiftApp.framework */; };
+		B43538461E3417AE0071BF5D /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43538451E3417AE0071BF5D /* ThirdViewController.swift */; };
+		B43538481E34193D0071BF5D /* ReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43538471E34193D0071BF5D /* ReminderCell.swift */; };
+		B435384B1E3419940071BF5D /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435384A1E3419940071BF5D /* Reminder.swift */; };
+		B435384D1E34199D0071BF5D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435384C1E34199D0071BF5D /* User.swift */; };
 		B4D125971E334E9500BB8F10 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D125961E334E9500BB8F10 /* AppDelegate.swift */; };
 		B4D125991E334E9500BB8F10 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D125981E334E9500BB8F10 /* FirstViewController.swift */; };
 		B4D1259B1E334E9500BB8F10 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D1259A1E334E9500BB8F10 /* SecondViewController.swift */; };
 		B4D1259E1E334E9500BB8F10 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4D1259C1E334E9500BB8F10 /* Main.storyboard */; };
 		B4D125A01E334E9500BB8F10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4D1259F1E334E9500BB8F10 /* Assets.xcassets */; };
 		B4D125A31E334E9500BB8F10 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4D125A11E334E9500BB8F10 /* LaunchScreen.storyboard */; };
+		B4D125AE1E33AC1300BB8F10 /* Reuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D125AD1E33AC1300BB8F10 /* Reuse.swift */; };
+		B4EEEC001E34125B00448725 /* ResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EEEBFF1E34125B00448725 /* ResultCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5DC814667127DF9562E84DAC /* Pods_SwiftApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		769657262FF5FA65C0B7C8D5 /* Pods-SwiftApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftApp/Pods-SwiftApp.debug.xcconfig"; sourceTree = "<group>"; };
+		B43538451E3417AE0071BF5D /* ThirdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
+		B43538471E34193D0071BF5D /* ReminderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderCell.swift; sourceTree = "<group>"; };
+		B435384A1E3419940071BF5D /* Reminder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
+		B435384C1E34199D0071BF5D /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B4D125931E334E9500BB8F10 /* SwiftApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4D125961E334E9500BB8F10 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B4D125981E334E9500BB8F10 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -24,6 +37,9 @@
 		B4D1259F1E334E9500BB8F10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B4D125A21E334E9500BB8F10 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B4D125A41E334E9500BB8F10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B4D125AD1E33AC1300BB8F10 /* Reuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reuse.swift; sourceTree = "<group>"; };
+		B4EEEBFF1E34125B00448725 /* ResultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultCell.swift; sourceTree = "<group>"; };
+		BB84D032FFCF5188BD298693 /* Pods-SwiftApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftApp/Pods-SwiftApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +47,46 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1FA329E13831EC58B6E623B /* Pods_SwiftApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5238A4D4EE8ED75B3A9B0A2E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5DC814667127DF9562E84DAC /* Pods_SwiftApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A0EA3E709DD34B9D834F367B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				769657262FF5FA65C0B7C8D5 /* Pods-SwiftApp.debug.xcconfig */,
+				BB84D032FFCF5188BD298693 /* Pods-SwiftApp.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		B43538491E3419870071BF5D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B435384A1E3419940071BF5D /* Reminder.swift */,
+				B435384C1E34199D0071BF5D /* User.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		B4D1258A1E334E9500BB8F10 = {
 			isa = PBXGroup;
 			children = (
 				B4D125951E334E9500BB8F10 /* SwiftApp */,
 				B4D125941E334E9500BB8F10 /* Products */,
+				A0EA3E709DD34B9D834F367B /* Pods */,
+				5238A4D4EE8ED75B3A9B0A2E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +101,44 @@
 		B4D125951E334E9500BB8F10 /* SwiftApp */ = {
 			isa = PBXGroup;
 			children = (
+				B43538491E3419870071BF5D /* Models */,
+				B4D125AC1E33ABFA00BB8F10 /* Globals */,
+				B4D125AB1E33521B00BB8F10 /* Controllers */,
+				B4D125AA1E33521500BB8F10 /* Views */,
 				B4D125961E334E9500BB8F10 /* AppDelegate.swift */,
-				B4D125981E334E9500BB8F10 /* FirstViewController.swift */,
-				B4D1259A1E334E9500BB8F10 /* SecondViewController.swift */,
 				B4D1259C1E334E9500BB8F10 /* Main.storyboard */,
 				B4D1259F1E334E9500BB8F10 /* Assets.xcassets */,
 				B4D125A11E334E9500BB8F10 /* LaunchScreen.storyboard */,
 				B4D125A41E334E9500BB8F10 /* Info.plist */,
 			);
 			path = SwiftApp;
+			sourceTree = "<group>";
+		};
+		B4D125AA1E33521500BB8F10 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B4EEEBFF1E34125B00448725 /* ResultCell.swift */,
+				B43538471E34193D0071BF5D /* ReminderCell.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		B4D125AB1E33521B00BB8F10 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B4D125981E334E9500BB8F10 /* FirstViewController.swift */,
+				B4D1259A1E334E9500BB8F10 /* SecondViewController.swift */,
+				B43538451E3417AE0071BF5D /* ThirdViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		B4D125AC1E33ABFA00BB8F10 /* Globals */ = {
+			isa = PBXGroup;
+			children = (
+				B4D125AD1E33AC1300BB8F10 /* Reuse.swift */,
+			);
+			name = Globals;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +148,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B4D125A71E334E9500BB8F10 /* Build configuration list for PBXNativeTarget "SwiftApp" */;
 			buildPhases = (
+				17A98936C3A9FFBC7A81E731 /* [CP] Check Pods Manifest.lock */,
 				B4D1258F1E334E9500BB8F10 /* Sources */,
 				B4D125901E334E9500BB8F10 /* Frameworks */,
 				B4D125911E334E9500BB8F10 /* Resources */,
+				603D10E1C010C2B98D016539 /* [CP] Embed Pods Frameworks */,
+				E7553E2B99EC914FBBD50E65 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -99,6 +176,7 @@
 				TargetAttributes = {
 					B4D125921E334E9500BB8F10 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 8427N92JLE;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -134,6 +212,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		17A98936C3A9FFBC7A81E731 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		603D10E1C010C2B98D016539 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftApp/Pods-SwiftApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E7553E2B99EC914FBBD50E65 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftApp/Pods-SwiftApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B4D1258F1E334E9500BB8F10 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -141,7 +267,13 @@
 			files = (
 				B4D1259B1E334E9500BB8F10 /* SecondViewController.swift in Sources */,
 				B4D125971E334E9500BB8F10 /* AppDelegate.swift in Sources */,
+				B4D125AE1E33AC1300BB8F10 /* Reuse.swift in Sources */,
+				B43538481E34193D0071BF5D /* ReminderCell.swift in Sources */,
+				B4EEEC001E34125B00448725 /* ResultCell.swift in Sources */,
+				B435384D1E34199D0071BF5D /* User.swift in Sources */,
+				B43538461E3417AE0071BF5D /* ThirdViewController.swift in Sources */,
 				B4D125991E334E9500BB8F10 /* FirstViewController.swift in Sources */,
+				B435384B1E3419940071BF5D /* Reminder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,8 +392,11 @@
 		};
 		B4D125A81E334E9500BB8F10 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 769657262FF5FA65C0B7C8D5 /* Pods-SwiftApp.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 8427N92JLE;
 				INFOPLIST_FILE = SwiftApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.adityaparakh.SwiftApp;
@@ -272,8 +407,11 @@
 		};
 		B4D125A91E334E9500BB8F10 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BB84D032FFCF5188BD298693 /* Pods-SwiftApp.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 8427N92JLE;
 				INFOPLIST_FILE = SwiftApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.adityaparakh.SwiftApp;
@@ -301,6 +439,7 @@
 				B4D125A91E334E9500BB8F10 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

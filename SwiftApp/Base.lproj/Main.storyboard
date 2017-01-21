@@ -99,12 +99,54 @@
                                             <constraint firstAttribute="width" secondItem="tCh-7F-yuQ" secondAttribute="height" multiplier="1:1" id="dn4-cD-Uqs"/>
                                         </constraints>
                                         <state key="normal" image="friends+"/>
+                                        <connections>
+                                            <action selector="addFriend:" destination="8rJ-Kc-sve" eventType="touchDragInside" id="P8A-Xp-0g4"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hlL-Uw-ux7">
                                 <rect key="frame" x="21" y="120" width="333" height="478"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ResultCell" id="1WQ-He-QIz" customClass="ResultCell" customModule="SwiftApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="333" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1WQ-He-QIz" id="aVM-7b-6ih">
+                                            <rect key="frame" x="0.0" y="0.0" width="333" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="J9s-Md-Egl">
+                                                    <rect key="frame" x="20" y="10" width="293" height="23.5"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h67-q2-LEr">
+                                                            <rect key="frame" x="0.0" y="0.0" width="36.5" height="23.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="18y-OE-XUC">
+                                                            <rect key="frame" x="238" y="0.0" width="55" height="23.5"/>
+                                                            <state key="normal" title="Remove"/>
+                                                            <connections>
+                                                                <action selector="removeFriend:" destination="1WQ-He-QIz" eventType="touchUpInside" id="T64-Gu-5Tp"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="J9s-Md-Egl" secondAttribute="bottom" constant="10" id="2Ta-XC-p1Q"/>
+                                                <constraint firstAttribute="trailing" secondItem="J9s-Md-Egl" secondAttribute="trailing" constant="20" id="KI3-og-xht"/>
+                                                <constraint firstItem="J9s-Md-Egl" firstAttribute="top" secondItem="aVM-7b-6ih" secondAttribute="top" constant="10" id="SDO-0O-opS"/>
+                                                <constraint firstItem="J9s-Md-Egl" firstAttribute="leading" secondItem="aVM-7b-6ih" secondAttribute="leading" constant="20" id="h1U-Ip-lPO"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="name" destination="h67-q2-LEr" id="imH-tn-ihP"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -120,6 +162,9 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Second" image="second" id="cPa-gy-q4n"/>
+                    <connections>
+                        <outlet property="friendsTable" destination="hlL-Uw-ux7" id="vb5-0q-BAC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
@@ -128,7 +173,7 @@
         <!--Item-->
         <scene sceneID="A8X-PL-n9d">
             <objects>
-                <viewController id="Tx4-aX-aNo" sceneMemberID="viewController">
+                <viewController id="Tx4-aX-aNo" customClass="ThirdViewController" customModule="SwiftApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="p9i-xR-B3o"/>
                         <viewControllerLayoutGuide type="bottom" id="M6o-JO-kJS"/>
@@ -136,13 +181,105 @@
                     <view key="view" contentMode="scaleToFill" id="pOL-n9-fIT">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kJA-DK-vxZ">
+                                <rect key="frame" x="37.5" y="33" width="300" height="67"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Reminders" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="5aM-H9-Lh0">
+                                        <rect key="frame" x="0.0" y="0.0" width="233" height="67"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GST-wP-ACf">
+                                        <rect key="frame" x="233" y="0.0" width="67" height="67"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="GST-wP-ACf" secondAttribute="height" multiplier="1:1" id="ERY-1N-vsl"/>
+                                        </constraints>
+                                        <state key="normal" image="friends+"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6pO-Rt-VAW">
+                                <rect key="frame" x="20" y="110" width="335" height="488"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ReminderCell" id="Cb2-78-nAz" customClass="ReminderCell" customModule="SwiftApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="335" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Cb2-78-nAz" id="14n-AU-Pbn">
+                                            <rect key="frame" x="0.0" y="0.0" width="335" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="8ZS-i6-dl1">
+                                                    <rect key="frame" x="20" y="10" width="295" height="24"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GMQ-yi-ovE">
+                                                            <rect key="frame" x="0.0" y="0.0" width="147.5" height="24"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="6Vk-3g-mMV">
+                                                            <rect key="frame" x="194.5" y="0.0" width="100.5" height="24"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="se7-dT-qL7">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="35.5" height="24"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ahe-r6-mPG">
+                                                                    <rect key="frame" x="45.5" y="0.0" width="55" height="24"/>
+                                                                    <state key="normal" title="Remove"/>
+                                                                    <connections>
+                                                                        <action selector="remove:" destination="Cb2-78-nAz" eventType="touchUpInside" id="bG1-PM-Iu9"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                        </stackView>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="GMQ-yi-ovE" firstAttribute="width" relation="lessThanOrEqual" secondItem="8ZS-i6-dl1" secondAttribute="width" multiplier="0.5" id="oki-f8-4Fh"/>
+                                                    </constraints>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="8ZS-i6-dl1" secondAttribute="trailing" constant="20" id="FjJ-2P-5cn"/>
+                                                <constraint firstAttribute="bottom" secondItem="8ZS-i6-dl1" secondAttribute="bottom" constant="10" id="YYx-Hu-ibv"/>
+                                                <constraint firstItem="8ZS-i6-dl1" firstAttribute="top" secondItem="14n-AU-Pbn" secondAttribute="top" constant="10" id="rt9-fT-Hk4"/>
+                                                <constraint firstItem="8ZS-i6-dl1" firstAttribute="leading" secondItem="14n-AU-Pbn" secondAttribute="leading" constant="20" id="vJq-oM-eaE"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="due" destination="se7-dT-qL7" id="pwp-rx-54H"/>
+                                            <outlet property="name" destination="GMQ-yi-ovE" id="mI5-qy-Mqq"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="kJA-DK-vxZ" firstAttribute="centerX" secondItem="pOL-n9-fIT" secondAttribute="centerX" id="40b-Wi-dr4"/>
+                            <constraint firstItem="6pO-Rt-VAW" firstAttribute="top" secondItem="kJA-DK-vxZ" secondAttribute="bottom" constant="10" id="NIi-0W-P0E"/>
+                            <constraint firstItem="6pO-Rt-VAW" firstAttribute="leading" secondItem="pOL-n9-fIT" secondAttribute="leading" constant="20" id="QOA-Iv-gjK"/>
+                            <constraint firstItem="kJA-DK-vxZ" firstAttribute="height" secondItem="pOL-n9-fIT" secondAttribute="height" multiplier="0.1" id="Zx0-JC-FTv"/>
+                            <constraint firstItem="kJA-DK-vxZ" firstAttribute="centerY" secondItem="pOL-n9-fIT" secondAttribute="centerY" multiplier="0.2" id="aj5-KN-RHc"/>
+                            <constraint firstItem="kJA-DK-vxZ" firstAttribute="width" secondItem="pOL-n9-fIT" secondAttribute="width" multiplier="0.8" id="jv0-Ie-gam"/>
+                            <constraint firstAttribute="trailing" secondItem="6pO-Rt-VAW" secondAttribute="trailing" constant="20" id="n9k-A8-OkM"/>
+                            <constraint firstItem="M6o-JO-kJS" firstAttribute="top" secondItem="6pO-Rt-VAW" secondAttribute="bottom" constant="20" id="qFP-Fb-piA"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="0zK-R1-ICn"/>
+                    <connections>
+                        <outlet property="reminderTable" destination="6pO-Rt-VAW" id="UuA-YD-IUH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jwm-Tr-5XA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1" y="1135"/>
+            <point key="canvasLocation" x="-2.3999999999999999" y="1134.7826086956522"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
