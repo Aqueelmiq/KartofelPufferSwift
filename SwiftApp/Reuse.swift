@@ -10,7 +10,7 @@ import Foundation
 
 // *** create calendar object ***
 var timeCalendar = NSCalendar.current
-let unitFlags = Set<Calendar.Component>([.hour, .year, .minute])
+let unitFlags = Set<Calendar.Component>([.minute, .hour, .day, .month, .year])
 
 let timeKeys = [
     
