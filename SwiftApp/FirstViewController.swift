@@ -324,7 +324,17 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
                 }
             }
             
-            dict["done"] = EKAlarm()
+            var minute:Int = 0
+            var hour:Int = 0
+            
+            let date = Date()
+            let cal: Calendar = Calendar(identifier: .gregorian)
+            if dict["hour"] == nil {
+                
+            }
+            cal.date(bySettingHour: 0, minute: 0, second: 0, of: date)!
+            dict["done"] = EKAlarm(absoluteDate: date)
+            
             tokens = tokens.filter({$0 != remove})
             tokens = tokens.filter({$0 != "remind"})
             tokens = tokens.filter({$0 != "me"})

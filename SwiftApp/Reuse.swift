@@ -108,7 +108,7 @@ let tm = [
     "p m"
 ]
 
-let DB_URL = "http://localhost:3000/"
+let DB_URL = "http://192.169.164.204:3000"
 
 func URLify(url: String) -> String! {
     return url.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
