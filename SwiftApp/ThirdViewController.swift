@@ -12,12 +12,12 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     @IBOutlet weak var reminderTable: UITableView!
     
-    var reminders:[Reminder] = [Reminder(name: "Go to CS 425 class", time: "3PM Today"), Reminder(name: "Meet Mete", time: "12 PM 06/07")]
     override func viewDidLoad() {
         super.viewDidLoad()
 
         reminderTable.delegate = self;
         reminderTable.dataSource = self;
+        reminderTable.reloadData()
         // Do any additional setup after loading the view.
     }
 
@@ -48,12 +48,13 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         return 1
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return  self.reminders.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return  userReminders.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let match = self.reminders[indexPath.row]
+        let match = userReminders[indexPath.row]
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ReminderCell") as? ReminderCell {
             cell.name.text = match.name
             cell.due.text = match.time

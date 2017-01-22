@@ -7,5 +7,6 @@ target 'SwiftApp' do
 
   # Pods for SwiftApp
   	pod 'SwiftDate', '~> 4.0'
+    pod 'Alamofire', '~> 4.3'
 
 end

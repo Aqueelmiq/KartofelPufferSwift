@@ -10,6 +10,7 @@ import UIKit
 import EventKit
 import Speech
 import AVFoundation
+import Alamofire
 //import SwiftDate
 
 class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
@@ -30,10 +31,44 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
     private let audioEngine = AVAudioEngine()
 
     @IBOutlet weak var data: UITextField!
+    @IBOutlet weak var stopButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         speechPermissions()
+        //uploadEvent()
+        
+        self.stopButton.isHidden = true;
+        
+        let preferences = UserDefaults.standard
+        let uid = "uid"
+
+        if preferences.object(forKey: uid) == nil {
+            let body = [
+                "name": "Aditya Parakh",
+                "friendsList": [],
+                "reminderList": [],
+                "notificationList": []
+            ] as [String : Any]
+            Alamofire.request(DB_URL + "users", method: .post, parameters: body, encoding: JSONEncoding.default)
+                .responseJSON { response in
+                    DispatchQueue.main.async {
+                        if let JSON = response.result.value as? NSDictionary {
+                            print(JSON)
+                            if let id = JSON["id"] as? String {
+                                preferences.set(id, forKey: uid)
+                                user_id = id
+                            }
+                        }
+                    }
+            }
+        } else {
+            user_id = preferences.string(forKey: uid)!
+        }
+        print(user_id)
+        loadFriends()
+        loadReminders()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,20 +109,28 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
         }
     }
 
+    @IBAction func startDication(_ sender: Any) {
+        
+        startRecording()
+        self.stopButton.isHidden = false;
+        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        data.endEditing(true)
+    }
+    
+    
     @IBAction func onSubmit(_ sender: Any) {
         
         
-        if data.text == "" {
-            startRecording()
-        }
         if let dict = parse(input: data.text!) {
             
-            
-            var date = Date()
+            var date = NSDate()
             var event: String! = ""
             
             if let set = dict["done"] as? NSDate{
-                date = set as Date
+                date = set
             }
             else {
                 
@@ -129,7 +172,7 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
                     components.minute = 0
                 }
                 
-                date = timeCalendar.date(from: components)!
+                date = timeCalendar.date(from: components)! as NSDate
                 
             }
             
@@ -143,26 +186,66 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
             
             
             
-            let date2 = Date(timeInterval: TimeInterval(5*60), since: date)
+            let date2 = Date(timeInterval: TimeInterval(5*60), since: date as Date)
             
             
             print(event)
             textToSpeech(text: event)
             
-            if (EKEventStore.authorizationStatus(for: .event) != EKAuthorizationStatus.authorized) {
-                eventStore.requestAccess(to: .event, completion: {
-                    granted, error in
-                    self.createEvent(eventStore: self.eventStore, title: event, startDate: date, endDate: date2)
-                })
-            } else {
-                createEvent(eventStore: self.eventStore, title: event, startDate: date, endDate: date2)
+            let person = dict["person"] as! String
+            let body = [
+                "name": event,
+                "time": "\(date)"
+            ]
+            
+            if( person == "me") {
+                
+                if (EKEventStore.authorizationStatus(for: .event) != EKAuthorizationStatus.authorized) {
+                    eventStore.requestAccess(to: .event, completion: {
+                        granted, error in
+                        self.createEvent(eventStore: self.eventStore, title: event, startDate: date as Date, endDate: date2)
+                    })
+                } else {
+                    createEvent(eventStore: self.eventStore, title: event, startDate: date as Date, endDate: date2)
+                }
+                
+                
+                Alamofire.request(DB_URL + "users/" + user_id + "/reminder", method: .post, parameters: body, encoding: JSONEncoding.default)
+                    .responseJSON { response in
+                        DispatchQueue.main.async {
+                            if let JSON = response.result.value as? NSDictionary {
+                                print(JSON)
+                            }
+                        }
+                }
+                alert(title: event, msg: "For " + event)
+                
             }
-
-        
+            else {
+                
+                for friend in friendList {
+                    if(friend.lowercased().range(of: person.lowercased())) != nil {
+                        if let uid = friendId[friend] {
+                            
+                            Alamofire.request(DB_URL + "users/" + uid + "/reminder", method: .post, parameters: body, encoding: JSONEncoding.default)
+                                .responseJSON { response in
+                                    DispatchQueue.main.async {
+                                        if let JSON = response.result.value as? NSDictionary {
+                                            print(JSON)
+                                        }
+                                    }
+                            }
+                        }
+                    }
+                }
+                
+            }
         }
         else {
-            //Invalid input
+            alert(title: "We didnt understand you", msg: "Please try saying that again or type it in")
         }
+        
+        
         
         
     }
@@ -181,6 +264,7 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
             try eventStore.save(event, span: .thisEvent)
             savedEventId = event.eventIdentifier
             print(savedEventId)
+            
         } catch {
             print("Bad things happened")
         }
@@ -199,24 +283,7 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
         }
     }
     
-    // Responds to button to add event. This checks that we have permission first, before adding the
-    // event
-    func addEvent() {
-        let eventStore = EKEventStore()
-        
-        let startDate =
-            Date()
-        let endDate = startDate.addingTimeInterval(60 * 60) // One hour
-        
-        if (EKEventStore.authorizationStatus(for: .event) != EKAuthorizationStatus.authorized) {
-            eventStore.requestAccess(to: .event, completion: {
-                granted, error in
-                self.createEvent(eventStore: eventStore, title: "DJ's Test Event", startDate: startDate, endDate: endDate)
-            })
-        } else {
-            createEvent(eventStore: eventStore, title: "DJ's Test Event", startDate: startDate, endDate: endDate)
-        }
-    }
+ 
     
     
     // Responds to button to remove event. This checks that we have permission first, before removing the
@@ -246,6 +313,16 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
         var x = input.lowercased()
         var recorded:[String] = []
         var tokens = x.characters.split(separator: " ").map(String.init)
+        
+        for token in tokens {
+            for friend in friendList {
+                if (friend.lowercased().range(of: token) != nil) {
+                    tokens = tokens.filter({$0 != token})
+                    dict["person"] = token
+                    break;
+                }
+            }
+        }
         if !x.contains("in") {
             
             for i in 0..<tokens.count {
@@ -372,7 +449,6 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
             fatalError("Unable to create an SFSpeechAudioBufferRecognitionRequest object")
         }
         
-        print("Hi")
         recognitionRequest.shouldReportPartialResults = true
         
         recognitionTask = speechRecognizer?.recognitionTask(with: recognitionRequest, resultHandler: { (result, error) in
@@ -425,7 +501,29 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
         
         audioEngine.stop()
         recognitionRequest?.endAudio()
+        self.stopButton.isHidden = true;
         
+    }
+
+    
+    func textToSpeech(text: String)
+    {
+        myUtterance = AVSpeechUtterance(string: text)
+        myUtterance.rate = 0.3
+        synth.speak(myUtterance)
+    }
+    
+    func uploadEvent() {
+        Alamofire.request(DB_URL + "user")
+            .responseJSON { response in
+                //print(response.request)
+                DispatchQueue.main.async {
+                     //print(response)
+                    if let JSON = response.result.value as? NSDictionary{
+                        print(JSON)
+                    }
+                }
+        }
     }
     
     func alert(title: String, msg:String) {
@@ -434,12 +532,69 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func textToSpeech(text: String)
-    {
-        myUtterance = AVSpeechUtterance(string: text)
-        myUtterance.rate = 0.3
-        synth.speak(myUtterance)
+    func loadReminders() {
+        
+        Alamofire.request(DB_URL + "users/" + user_id + "/reminder")
+            .responseJSON { response in
+                
+                DispatchQueue.main.async {
+                    //print(response.request)
+                    if let JSON = response.result.value as? NSDictionary{
+                        //print(JSON)
+                        if let reminders = JSON["reminders"] as? NSArray {
+                            for reminder in reminders {
+                                if let rem = reminder as? NSDictionary {
+                                    if let id = rem["_id"] as? String, let name = rem["name"] as? String, let time = rem["time"] as? String {
+                                        userReminders.append(Reminder(_id: id, name: name, time: time));
+                                    }
+                                }
+                            }
+                            print(reminders.count)
+                        }
+                    }
+                }
+        }
+
+    
     }
+    
+    func loadFriends() {
+        
+        Alamofire.request(DB_URL + "users/" + user_id)
+            .responseJSON { response in
+                DispatchQueue.main.async {
+                    if let JSON = response.result.value as? NSDictionary{
+                        if let user = JSON["user"] as? NSDictionary {
+                            if let frnds = user["friendsList"] as? NSArray {
+                                
+                                for friend in frnds {
+                                    let item = friend as! String
+                                    //print(item)
+                                    Alamofire.request(DB_URL + "users/" + item)
+                                        .responseJSON { response in
+                                            DispatchQueue.main.async {
+                                                //print(response)
+                                                if let JSON = response.result.value as? NSDictionary{
+                                                    if let user = JSON["user"] as? NSDictionary{
+                                                        if let name = user["name"] as? String {
+                                                            friendList.append(name)
+                                                            friendId[name] = item
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                    }
+                                    
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
+
     
     
 }

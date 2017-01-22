@@ -39,5 +39,18 @@ let timeKeys = [
     "november": 111,
     "dec": 112,
     "december": 112
-
 ]
+
+let DB_URL = "http://localhost:3000/"
+
+func URLify(url: String) -> String! {
+    return url.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+}
+
+var user_id = ""
+
+var friendList:[String] = []
+var friendId:[String: String] = [:]
+
+var userReminders:[Reminder] = []
+

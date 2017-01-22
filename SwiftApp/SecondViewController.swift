@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import Alamofire
 
 class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    
 
+    @IBOutlet weak var input: UITextField!
     @IBOutlet weak var friendsTable: UITableView!
     
     var friends:[String] = ["Mete", "Aqueel", "Paolo"]
@@ -20,12 +21,51 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
         self.friendsTable.delegate = self
         self.friendsTable.dataSource = self
+        loadFriends()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func loadFriends() {
+        
+        Alamofire.request(DB_URL + "users/" + user_id)
+            .responseJSON { response in
+                DispatchQueue.main.async {
+                    if let JSON = response.result.value as? NSDictionary{
+                        if let user = JSON["user"] as? NSDictionary {
+                            if let frnds = user["friendsList"] as? NSArray {
+                                
+                                for friend in frnds {
+                                    let item = friend as! String
+                                    print(item)
+                                    Alamofire.request(DB_URL + "users/" + item)
+                                        .responseJSON { response in
+                                            DispatchQueue.main.async {
+                                                //print(response)
+                                                if let JSON = response.result.value as? NSDictionary{
+                                                    if let user = JSON["user"] as? NSDictionary{
+                                                        if let name = user["name"] as? String {
+                                                            self.friends.append(name)
+                                                            friendList.append(name)
+                                                            friendId[name] = item
+                                                            self.friendsTable.reloadData()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                    }
+
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+        }
     }
     
     /*
@@ -74,8 +114,43 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
      */
 
     @IBAction func addFriend(_ sender: Any) {
-        print("Hello")
+        
+        var user:NSDictionary = [:]
+        
+        if((input.text?.characters.count)! < 2) {
+            alert(title: "Empty Friend Name", msg: "Please search for a valid friend");
+        }
+        else {
+            
+            Alamofire.request(DB_URL + "users/name/" + input.text!)
+                .responseJSON { response in
+                    //print(response.request)
+                    DispatchQueue.main.async {
+                        
+                        if let JSON = response.result.value as? NSDictionary{
+                            if let user = JSON["user"] as? NSDictionary{
+                                print(JSON)
+                                if let name = user["name"] as? String {
+                                    let fid = user["_id"] as! String
+                                    self.friends.append(name)
+                                    friendList.append(name)
+                                    friendId[name] = fid
+                                    self.friendsTable.reloadData()
+                                    Alamofire.request(DB_URL + "users/" + user_id + "/friends/" + fid, method: .post, parameters: nil, encoding: JSONEncoding.default)
+                                }
+                            }
+                        }
+                    }
+            }
+        }
     }
+    
+    func alert(title: String, msg:String) {
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 
 }
 
