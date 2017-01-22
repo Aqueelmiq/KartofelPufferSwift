@@ -60,6 +60,7 @@ class InputViewController: UIViewController {
                 let alarm = EKAlarm(absoluteDate: date)
                 
                 reminder.addAlarm(alarm)
+            
                 
                 do {
                     try eventStore.save(reminder, commit: true)
@@ -85,10 +86,10 @@ class InputViewController: UIViewController {
             }
             else {
                 for friend in friendList {
-                    if(friend.lowercased().range(of: person.lowercased())) != nil {
+                    if(friend.lowercased().range(of: (person.text?.lowercased())!)) != nil {
                         if let uid = friendId[friend] {
                             
-                            Alamofire.request(DB_URL + "users/" + uid + "/reminder", method: .post, parameters: body, encoding: JSONEncoding.default)
+                            Alamofire.request(DB_URL + "users/" + uid + "/reminder", method: .post, parameters: nil, encoding: JSONEncoding.default)
                                 .responseJSON { response in
                                     DispatchQueue.main.async {
                                         if let JSON = response.result.value as? NSDictionary {

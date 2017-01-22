@@ -49,23 +49,63 @@ let months = [
     "january",
     "feb",
     "february",
-    "jan",
-    "january",
-    "jan",
-    "january",
-    "jan",
-    "january",
-    "jan",
-    "january",
-    "jan",
-    "january",
-    "jan",
-    "january",
-    "jan",
-    "january",
-    "jan",
-    "january",
+    "mar",
+    "march",
+    "apr",
+    "april",
+    "may",
+    "jun",
+    "june",
+    "july",
+    "jul",
+    "aug",
+    "august",
+    "sep",
+    "september",
+    "oct",
+    "october",
+    "nov",
+    "november",
+    "dec",
+    "december"
 
+]
+
+let monthsToNum = [
+    
+    "jan": 1,
+    "january": 1,
+    "feb": 2,
+    "february": 2,
+    "mar": 3,
+    "march": 3,
+    "apr":4,
+    "april":4,
+    "may":5,
+    "jun":5,
+    "june":6,
+    "july": 7,
+    "jul":7,
+    "aug": 8,
+    "august": 8,
+    "sep": 9,
+    "september":9,
+    "oct":10,
+    "october":11,
+    "nov":11,
+    "november":11,
+    "dec":12,
+    "december":12
+    
+]
+
+let tm = [
+    "am",
+    "a.m",
+    "pm",
+    "p.m",
+    "a m",
+    "p m"
 ]
 
 let DB_URL = "http://localhost:3000/"

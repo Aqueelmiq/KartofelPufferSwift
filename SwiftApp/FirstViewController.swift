@@ -121,92 +121,49 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
     
     @IBAction func onSubmit(_ sender: Any) {
         
+        let dict = parse(input: data.text!)
+        print(dict)
         
-        if let dict = parse(input: data.text!) {
+        if let notifyee = dict["person"] as? String {
             
-            var date = NSDate()
-            var event: String! = ""
-            
-            if let set = dict["done"] as? NSDate{
-                date = set
-            }
-            else {
+            if(notifyee.lowercased() == "me") {
                 
-                // create a new DateInRegion on 2002-03-04 at 05:06:07.87654321 (+/-10) in Region.Local()
-                let now = Date()
+                eventStore.requestAccess(to: .reminder, completion:
+                    {(granted, error) in
+                        if !granted {
+                            print("Access to store not granted")
+                        }
+                })
                 
-                // *** Get components from date ***
-                var components = timeCalendar.dateComponents(unitFlags, from: now)
+                let reminder = EKReminder(eventStore: eventStore)
                 
-                if let minutes = dict["hours"] as? Int {
-                    components.hour = minutes
+                if let titles = dict["recording"] as? [String] {
+                    reminder.title = titles.joined(separator: " ")
+                }
+                if let calendar = eventStore.defaultCalendarForNewReminders() as? EKCalendar {
+                    reminder.calendar = calendar
                 }
                 else {
-                    components.hour = 8
-                }
-                if let minutes = dict["minutes"] as? Int {
-                    components.minute = minutes
-                }
-                else {
-                    components.minute = 0
-                }
-                if let date = dict["date"] as? Int {
-                    switch date {
-                    case 0:
-                        components.day = components.day ?? 1
-                        break
-                    case 1:
-                        components.day = components.day! + 1
-                        break
-                    case let date where date > 100:
-                        components.month = date
-                        components.day = dict["day"] as! Int?
-                        break;
-                    default:
-                        print("weird month/date")
-                    }
-                }
-                else {
-                    components.minute = 0
+                    reminder.calendar = eventStore.calendars(for: EKEntityType.reminder).first!
                 }
                 
-                date = timeCalendar.date(from: components)! as NSDate
-                
-            }
-            
-            
-            if let recording = dict["recorded"] as? [String] {
-                event = recording.joined(separator: " ")
-            }
-            else {
-                event = "Reminder"
-            }
-            
-            
-            
-            let date2 = Date(timeInterval: TimeInterval(5*60), since: date as Date)
-            
-            
-            print(event)
-            textToSpeech(text: event)
-            
-            let person = dict["person"] as! String
-            let body = [
-                "name": event,
-                "time": "\(date)"
-            ]
-            
-            if( person == "me") {
-                
-                if (EKEventStore.authorizationStatus(for: .event) != EKAuthorizationStatus.authorized) {
-                    eventStore.requestAccess(to: .event, completion: {
-                        granted, error in
-                        self.createEvent(eventStore: eventStore, title: event, startDate: date as Date, endDate: date2)
-                    })
-                } else {
-                    createEvent(eventStore: eventStore, title: event, startDate: date as Date, endDate: date2)
+                var date = Date()
+                if let alarm = dict["done"] as? EKAlarm {
+                    reminder.addAlarm(alarm)
+                    date = alarm.absoluteDate ?? Date()
                 }
                 
+                
+                do {
+                    try eventStore.save(reminder, commit: true)
+                } catch let error {
+                    print("Reminder failed with error \(error.localizedDescription)")
+                }
+                
+                let body = [
+                    "name": reminder.title,
+                    "time": "\(date)"
+                ]
                 
                 Alamofire.request(DB_URL + "users/" + user_id + "/reminder", method: .post, parameters: body, encoding: JSONEncoding.default)
                     .responseJSON { response in
@@ -216,16 +173,18 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
                             }
                         }
                 }
-                alert(title: event, msg: "For " + event)
+                
                 
             }
             else {
                 
+                let person = dict["person"] as! String
                 for friend in friendList {
-                    if(friend.lowercased().range(of: person.lowercased())) != nil {
+                    
+                    if(friend.lowercased().range(of: (person.lowercased()))) != nil {
                         if let uid = friendId[friend] {
                             
-                            Alamofire.request(DB_URL + "users/" + uid + "/reminder", method: .post, parameters: body, encoding: JSONEncoding.default)
+                            Alamofire.request(DB_URL + "users/" + uid + "/reminder", method: .post, parameters: nil, encoding: JSONEncoding.default)
                                 .responseJSON { response in
                                     DispatchQueue.main.async {
                                         if let JSON = response.result.value as? NSDictionary {
@@ -236,12 +195,16 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
                         }
                     }
                 }
-                
             }
+            alert(title: "Reminder Set", msg: "For " + "reminder")
+            
         }
+
+        
+        /*
         else {
             alert(title: "We didnt understand you", msg: "Please try saying that again or type it in")
-        }
+        }*/
         
         
         
@@ -299,7 +262,7 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
         
     }
     
-    func parse(input: String) -> [String: Any]? {
+    func parse(input: String) -> [String:Any] {
         
         /*
          |
@@ -312,6 +275,8 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
         var recorded:[String] = []
         var tokens = x.characters.split(separator: " ").map(String.init)
         
+        
+        //Look for person
         for token in tokens {
             for friend in friendList {
                 if (friend.lowercased().range(of: token) != nil) {
@@ -321,51 +286,52 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
                 }
             }
         }
+        
+        // Set Date
         if !x.contains("in") {
             
+            var remove = ""
+            
+            //Look for year
             for i in 0..<tokens.count {
-                let word = tokens[i];
-                switch word {
-                case "remind":
-                    break
-                case "me":
-                    dict["person"] = word
-                    break
-                case "to":
-                    break
-                case "":
-                    break;
-                default:
-                    if word.contains("th") || word.contains("rd") || word.contains("st") || word.contains("nd") {
-                        if let day = Int(word) {
-                            dict["day"] = day
+                if let val = Int(tokens[i]) {
+                    if val >= 2017{
+                        dict["year"] = val
+                        remove = tokens[i]
+                        tokens = tokens.filter({$0 != remove})
+                    }
+                    else if val <= 31{
+                        if(tokens[i].contains("th") || tokens[i].contains("st") || tokens[i].contains("rd") || tokens[i].contains("rd") )  {
+                            dict["day"] = val
+                        }
+                        else if i < tokens.count - 1 && months.contains(tokens[i+1].lowercased()) {
+                            dict["day"] = val
+                        }
+                        else if i < tokens.count - 1 && tm.contains(tokens[i+1].lowercased()) {
+                            dict["date"] = val
+                            dict["eve"] = "am"
                         }
                     }
-                    if let time = Int(word) {
-                        dict["hour"] = time
-                        if word.contains(":") {
-                            let arr = word.characters.split(separator: ":").map(String.init)
-                            if let val = Int(arr[1]) {
-                                dict["minutes"] = val
-                            }
-                        }
-                    }
-                    else if let val = timeKeys[word] {
-                        dict["date"] = val
-                        if val > 100 {
-                            if let next = Int(tokens[i+1]) {
-                                dict["day"] = next
-                            }
-                        }
-                    }
-                    else if tokens[i-1] == "remind" {
-                        dict["person"] = word
-                    }
-                    else {
-                        recorded.append(word)
-                    }
-                    break;
                 }
+            }
+            
+            
+            //Look for month
+            for token in tokens {
+                if months.contains(token) {
+                    dict["month"] = monthsToNum[token]
+                    remove = token
+                }
+            }
+            
+            dict["done"] = EKAlarm()
+            tokens = tokens.filter({$0 != remove})
+            tokens = tokens.filter({$0 != "remind"})
+            tokens = tokens.filter({$0 != "me"})
+            tokens = tokens.filter({$0 != ""})
+            
+            for word in tokens {
+               recorded.append(word)
             }
             
         }
@@ -378,14 +344,15 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
                 switch type {
                     case "seconds", "second", "secs", "sec":
                         
-                        dict["done"] = date.addingTimeInterval(TimeInterval(interval))                    case "minutes", "minute", "mins", "min":
-                        dict["done"] = date.addingTimeInterval(TimeInterval(60*interval))
+                        dict["done"] = EKAlarm(relativeOffset: TimeInterval(interval))
+                    case "minutes", "minute", "mins", "min":
+                        dict["done"] = EKAlarm(relativeOffset: TimeInterval(60*interval))
                     case "hours", "hour", "hr", "hrs":
-                        dict["done"] = date.addingTimeInterval(TimeInterval(60*60*interval))
+                        dict["done"] = EKAlarm(relativeOffset: TimeInterval(60*60*interval))
                     case "days", "day":
-                        dict["done"] = date.addingTimeInterval(TimeInterval(24*60*60*interval))
+                        dict["done"] = EKAlarm(relativeOffset: TimeInterval(24*60*60*interval))
                     case "months", "month":
-                        dict["done"] = date.addingTimeInterval(TimeInterval(30*24*60*60*interval))
+                        dict["done"] = EKAlarm(relativeOffset: TimeInterval(30*24*60*60*interval))
                     default:
                         print("Improper interval format")
                 }
@@ -411,9 +378,6 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
                 }
             }
             
-        }
-        else {
-            return nil
         }
         dict["recorded"] = recorded
         return dict
@@ -511,18 +475,6 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
         synth.speak(myUtterance)
     }
     
-    func uploadEvent() {
-        Alamofire.request(DB_URL + "user")
-            .responseJSON { response in
-                //print(response.request)
-                DispatchQueue.main.async {
-                     //print(response)
-                    if let JSON = response.result.value as? NSDictionary{
-                        print(JSON)
-                    }
-                }
-        }
-    }
     
     func alert(title: String, msg:String) {
         let alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.alert)
