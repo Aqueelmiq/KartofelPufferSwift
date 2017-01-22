@@ -12,6 +12,7 @@
 		B43538481E34193D0071BF5D /* ReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43538471E34193D0071BF5D /* ReminderCell.swift */; };
 		B435384B1E3419940071BF5D /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435384A1E3419940071BF5D /* Reminder.swift */; };
 		B435384D1E34199D0071BF5D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435384C1E34199D0071BF5D /* User.swift */; };
+		B435384F1E34BA4A0071BF5D /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435384E1E34BA4A0071BF5D /* InputViewController.swift */; };
 		B4D125971E334E9500BB8F10 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D125961E334E9500BB8F10 /* AppDelegate.swift */; };
 		B4D125991E334E9500BB8F10 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D125981E334E9500BB8F10 /* FirstViewController.swift */; };
 		B4D1259B1E334E9500BB8F10 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D1259A1E334E9500BB8F10 /* SecondViewController.swift */; };
@@ -29,6 +30,7 @@
 		B43538471E34193D0071BF5D /* ReminderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderCell.swift; sourceTree = "<group>"; };
 		B435384A1E3419940071BF5D /* Reminder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
 		B435384C1E34199D0071BF5D /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		B435384E1E34BA4A0071BF5D /* InputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
 		B4D125931E334E9500BB8F10 /* SwiftApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4D125961E334E9500BB8F10 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B4D125981E334E9500BB8F10 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				B4D125981E334E9500BB8F10 /* FirstViewController.swift */,
 				B4D1259A1E334E9500BB8F10 /* SecondViewController.swift */,
 				B43538451E3417AE0071BF5D /* ThirdViewController.swift */,
+				B435384E1E34BA4A0071BF5D /* InputViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4D1259B1E334E9500BB8F10 /* SecondViewController.swift in Sources */,
+				B435384F1E34BA4A0071BF5D /* InputViewController.swift in Sources */,
 				B4D125971E334E9500BB8F10 /* AppDelegate.swift in Sources */,
 				B4D125AE1E33AC1300BB8F10 /* Reuse.swift in Sources */,
 				B43538481E34193D0071BF5D /* ReminderCell.swift in Sources */,

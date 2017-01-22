@@ -20,8 +20,6 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
     let synth = AVSpeechSynthesizer()
     var myUtterance = AVSpeechUtterance(string: "")
     
-    
-    let eventStore = EKEventStore()
     var calendar: EKCalendar?
     var savedEventId:String = ""
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "en-US"))
@@ -203,10 +201,10 @@ class FirstViewController: UIViewController, SFSpeechRecognizerDelegate {
                 if (EKEventStore.authorizationStatus(for: .event) != EKAuthorizationStatus.authorized) {
                     eventStore.requestAccess(to: .event, completion: {
                         granted, error in
-                        self.createEvent(eventStore: self.eventStore, title: event, startDate: date as Date, endDate: date2)
+                        self.createEvent(eventStore: eventStore, title: event, startDate: date as Date, endDate: date2)
                     })
                 } else {
-                    createEvent(eventStore: self.eventStore, title: event, startDate: date as Date, endDate: date2)
+                    createEvent(eventStore: eventStore, title: event, startDate: date as Date, endDate: date2)
                 }
                 
                 

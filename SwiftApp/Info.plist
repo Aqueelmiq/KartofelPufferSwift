@@ -2,12 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <!--Include to allow all connections (DANGER)-->
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-    </dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSRemindersUsageDescription</key>
+	<string>We need to set reminders for you and need access</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Your microphone will be used to record your speech when you press the &quot;Start Recording&quot; button.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
@@ -50,7 +51,7 @@
 			<false/>
 		</dict>
 	</dict>
-    <key>UISupportedInterfaceOrientations</key>
+	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>

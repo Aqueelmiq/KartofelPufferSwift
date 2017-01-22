@@ -7,9 +7,11 @@
 //
 
 import Foundation
+import EventKit
 
 // *** create calendar object ***
 var timeCalendar = NSCalendar.current
+var eventStore = EKEventStore()
 let unitFlags = Set<Calendar.Component>([.minute, .hour, .day, .month, .year])
 
 let timeKeys = [
@@ -39,6 +41,31 @@ let timeKeys = [
     "november": 111,
     "dec": 112,
     "december": 112
+]
+
+let months = [
+    
+    "jan",
+    "january",
+    "feb",
+    "february",
+    "jan",
+    "january",
+    "jan",
+    "january",
+    "jan",
+    "january",
+    "jan",
+    "january",
+    "jan",
+    "january",
+    "jan",
+    "january",
+    "jan",
+    "january",
+    "jan",
+    "january",
+
 ]
 
 let DB_URL = "http://localhost:3000/"
